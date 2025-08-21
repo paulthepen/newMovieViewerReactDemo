@@ -2,10 +2,11 @@ import './App.css'
 import Search from "./components/Search.jsx";
 import {useState, useEffect, useRef} from "react";
 import Loading from "./components/Loading.jsx";
-import MovieCard from "./components/MovieCard.jsx";
-import {getTrendingMovies, updateSearchCount} from "./appwrite.js";
+import {updateSearchCount} from "./appwrite.js";
 import TrendingMovies from "./components/TrendingMovies.jsx";
 import MovieCards from "./components/MovieCards.jsx";
+import heroImg from './hero-img.png'; //
+
 
 const API_URL = "https://api.themoviedb.org/3/";
 const API_KEY = import.meta.env.VITE_API_KEY;
@@ -76,7 +77,7 @@ return (
         <div className="pattern">
             <div className="wrapper">
                 <header>
-                    <img src="/hero-img.png" alt="Hero Banner"/>
+                    <img src={heroImg} alt="Hero Banner"/>
                     <h1 className="text-4xl font-bold">Find <span className="text-gradient">Movies</span> You'll Enjoy
                         Without the Hassle</h1>
                     <Search searchTerm={searchTerm} setSearchTerm={setSearchTerm}/>
