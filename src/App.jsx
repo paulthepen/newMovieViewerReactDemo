@@ -5,7 +5,7 @@ import Loading from "./components/Loading.jsx";
 import {updateSearchCount} from "./appwrite.js";
 import TrendingMovies from "./components/TrendingMovies.jsx";
 import MovieCards from "./components/MovieCards.jsx";
-import heroImg from './hero-img.png'; //
+import heroImg from './assets/hero-img.png'; //
 
 
 const API_URL = "https://api.themoviedb.org/3/";
