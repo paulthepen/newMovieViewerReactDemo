@@ -163,3 +163,34 @@
         display: none;
     }
 }
+
+.detailBg, .movieDetails {
+    transition: opacity 0.3s ease-in-out;
+}
+
+.fade-in {
+    opacity: 1;
+}
+
+.fade-out {
+    opacity: 0;
+}
+
+.movie-details-trailer iframe{
+    width: 100%;
+    aspect-ratio: 16/9;
+    border-radius: 10px;
+}
+
+.movie-details-content img{
+    aspect-ratio: 2/3;
+}
+
+@media (max-width: 768px) {
+    .movie-details-content .poster-container{
+        margin-top:-50%;
+    }
+    .movie-details {
+        margin-top: 10rem;
+    }
+}
