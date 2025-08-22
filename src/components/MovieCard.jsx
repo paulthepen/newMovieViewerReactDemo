@@ -1,3 +1,5 @@
+import starImg from '../assets/star.svg';
+
 const MovieCard = ({movie}) => {
     const {title, vote_average, poster_path, release_date} = movie;
     return (
@@ -7,7 +9,7 @@ const MovieCard = ({movie}) => {
                 <h3>{title}</h3>
                 <div className="content">
                     <div className="rating">
-                        <img src="star.svg" alt="Star Icon"/>
+                        <img src={starImg} alt="Star Icon"/>
                         <p>{vote_average? vote_average.toFixed(1): 'N/A'}</p>
                     </div>
                     <span>•</span>
