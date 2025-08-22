@@ -3,11 +3,20 @@ import {Client, Databases, ID, Query} from 'appwrite';
 const DATABASE_ID = import.meta.env.VITE_APPWRITE_DATABASE_ID;
 const COLLECTION_ID = import.meta.env.VITE_APPWRITE_COLLECTION_ID;
 const PROJECT_ID = import.meta.env.VITE_APPWRITE_PROJECT_ID;
-const endpoint = import.meta.env.VITE_APPWRITE_ENDPOINT;
+const ENDPOINT = import.meta.env.VITE_APPWRITE_ENDPOINT;
 
-const client = new Client().setEndpoint(endpoint).setProject(PROJECT_ID);
+const client = new Client().setEndpoint(ENDPOINT).setProject(PROJECT_ID);
 
 const database = new Databases(client);
+
+function isValidUrl(url) {
+    try {
+        const u = new URL(url);
+        return u.protocol === 'https:' || u.protocol === 'http:';
+    } catch {
+        return false;
+    }
+}
 
 export const updateSearchCount = async (searchTerm, movie) => {
     try {
@@ -34,7 +43,13 @@ export const updateSearchCount = async (searchTerm, movie) => {
 }
 
 export const getTrendingMovies = async () => {
-    console.log(endpoint);
+    if (!ENDPOINT || !isValidUrl(ENDPOINT)) {
+        console.error(
+            'Appwrite config error: VITE_APPWRITE_ENDPOINT is missing or invalid. ' +
+            'Expected a full URL like "https://nyc.cloud.appwrite.io/v1". Got:',
+            ENDPOINT
+        );
+    }
     try{
         const result = await database.listDocuments(DATABASE_ID, COLLECTION_ID, [
             Query.limit(5),
