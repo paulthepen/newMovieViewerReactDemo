@@ -1,4 +1,4 @@
-import searchImg from '../assets/search.png';
+import searchImg from '../assets/search.svg';
 
 const Search = ({searchTerm, setSearchTerm}) => {
     return (
