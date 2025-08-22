@@ -4,10 +4,19 @@ const DATABASE_ID = import.meta.env.VITE_APPWRITE_DATABASE_ID;
 const COLLECTION_ID = import.meta.env.VITE_APPWRITE_COLLECTION_ID;
 const PROJECT_ID = import.meta.env.VITE_APPWRITE_PROJECT_ID;
 const ENDPOINT = import.meta.env.VITE_APPWRITE_ENDPOINT;
+let client;
+let database;
 
-const client = new Client().setEndpoint(ENDPOINT).setProject(PROJECT_ID);
-
-const database = new Databases(client);
+if (!ENDPOINT || !isValidUrl(ENDPOINT)) {
+    console.error(
+        'Appwrite config error: VITE_APPWRITE_ENDPOINT is missing or invalid. ' +
+        'Expected a full URL like "https://nyc.cloud.appwrite.io/v1". Got:',
+        ENDPOINT
+    );
+} else {
+    client = new Client().setEndpoint(ENDPOINT).setProject(PROJECT_ID);
+    database = new Databases(client);
+}
 
 function isValidUrl(url) {
     try {
@@ -20,6 +29,7 @@ function isValidUrl(url) {
 
 export const updateSearchCount = async (searchTerm, movie) => {
     try {
+        if (!client || !database) throw new Error('Appwrite client or database not initialized');
         const result = await database.listDocuments(DATABASE_ID, COLLECTION_ID, [
             Query.equal('searchTerm', searchTerm)
         ]);
@@ -43,14 +53,8 @@ export const updateSearchCount = async (searchTerm, movie) => {
 }
 
 export const getTrendingMovies = async () => {
-    if (!ENDPOINT || !isValidUrl(ENDPOINT)) {
-        console.error(
-            'Appwrite config error: VITE_APPWRITE_ENDPOINT is missing or invalid. ' +
-            'Expected a full URL like "https://nyc.cloud.appwrite.io/v1". Got:',
-            ENDPOINT
-        );
-    }
     try{
+        if (!client || !database) throw new Error('Appwrite client or database not initialized');
         const result = await database.listDocuments(DATABASE_ID, COLLECTION_ID, [
             Query.limit(5),
             Query.orderDesc('count')
