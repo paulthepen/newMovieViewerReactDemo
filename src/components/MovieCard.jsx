@@ -1,6 +1,7 @@
 import starImg from '../assets/star.svg';
 import MovieDetails from "./MovieDetails.jsx";
 import {useState} from "react";
+import Transition from "./Transition.jsx";
 
 const MovieCard = ({movie}) => {
     const {title, vote_average, poster_path, release_date} = movie;
@@ -20,9 +21,10 @@ const MovieCard = ({movie}) => {
                     <p className="year">{release_date? release_date.split('-')[0]: 'N/A'}</p>
                 </div>
             </div>
-            {showDetails && <MovieDetails movie={movie} setShowDetails={setShowDetails}/>}
+            <Transition show={showDetails} animateIn="fadeIn" animateOut="fadeOut">
+                <MovieDetails movie={movie} setShowDetails={setShowDetails}/>
+            </Transition>
         </div>
     )
 }
-//TODO: you'll have to set a timeout when showdetails changes to add the class to moviedetails, then wait a second before removing it.
 export default MovieCard
