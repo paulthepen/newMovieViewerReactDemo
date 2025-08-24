@@ -1,4 +1,5 @@
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
+import {GenreContext} from "../contexts/contexts.js";
 
 const API_KEY = import.meta.env.VITE_API_KEY;
 const API_OPTIONS = {
@@ -10,6 +11,7 @@ const API_OPTIONS = {
 }
 
 const MovieDetails = ({movie, setShowDetails}) => {
+    const genres = useContext(GenreContext);
     const [errorMsg, setErrorMsg] = useState('');
     const [video, setVideo] = useState('');
 
@@ -41,6 +43,11 @@ const MovieDetails = ({movie, setShowDetails}) => {
         }
     }
 
+    const genreString = (ids) => {
+        const genreNames = ids.map((id) => genres[id]);
+        return genreNames.join(', ');
+    }
+
     useEffect(() => {
         getMovieTrailer();
     }, [])
@@ -57,7 +64,7 @@ const MovieDetails = ({movie, setShowDetails}) => {
                         <div className="movie-details-body w-full md:w-2/3">
                             <div className="movie-details-header">
                                 <h2>{movie.title}</h2>
-                                <p className="font-bold">Release Date: {movie.release_date}</p>
+                                <p className="font-bold">{movie.release_date} • {genreString(movie.genre_ids)}</p>
                             </div>
                             <div className="mt-3">
                                 <p className="max-lg:line-clamp-6">{movie.overview}</p>

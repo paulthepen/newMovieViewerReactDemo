@@ -1,11 +1,11 @@
 import './App.css'
 import Search from "./components/Search.jsx";
-import {useState, useEffect, useRef} from "react";
+import {useEffect, useRef, useState} from "react";
 import Loading from "./components/Loading.jsx";
 import TrendingMovies from "./components/TrendingMovies.jsx";
 import MovieCards from "./components/MovieCards.jsx";
-import heroImg from './assets/hero-img.png'; //
-
+import heroImg from './assets/hero-img.png';
+import GenreProvider from "./components/GenreProvider.jsx";
 
 const API_URL = "https://api.themoviedb.org/3/";
 const API_KEY = import.meta.env.VITE_API_KEY;
@@ -23,7 +23,6 @@ const App = () => {
     const [movies, setMovies] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const debouncer = useRef(null);
-
 
     const fetchMovies = async (query = '') => {
         setErrorMsg('');
@@ -69,26 +68,28 @@ const App = () => {
 
 return (
     <main>
-        <div className="pattern">
-            <div className="wrapper">
-                <header>
-                    <img src={heroImg} alt="Hero Banner"/>
-                    <h1 className="text-4xl font-bold">Find <span className="text-gradient">Movies</span> You'll Enjoy
-                        Without the Hassle</h1>
-                    <Search searchTerm={searchTerm} setSearchTerm={setSearchTerm}/>
-                </header>
+        <GenreProvider>
+            <div className="pattern">
+                <div className="wrapper">
+                    <header>
+                        <img src={heroImg} alt="Hero Banner"/>
+                        <h1 className="text-4xl font-bold">Find <span className="text-gradient">Movies</span> You'll Enjoy
+                            Without the Hassle</h1>
+                        <Search searchTerm={searchTerm} setSearchTerm={setSearchTerm}/>
+                    </header>
 
-                <section className="trending">
-                    <h2>Trending Movies</h2>
-                    <TrendingMovies />
-                </section>
+                    <section className="trending">
+                        <h2>Trending Movies</h2>
+                        <TrendingMovies/>
+                    </section>
 
-                <section className="all-movies">
-                    <h2>All Movies</h2>
-                    {isLoading ? <Loading/> : <MovieCards errorMsg={errorMsg} movies={movies}/>}
-                </section>
+                    <section className="all-movies">
+                        <h2>All Movies</h2>
+                        {isLoading ? <Loading/> : <MovieCards errorMsg={errorMsg} movies={movies}/>}
+                    </section>
+                </div>
             </div>
-        </div>
+        </GenreProvider>
     </main>
   )
 }
