@@ -1,4 +1,3 @@
-import {updateSearchCount} from "../appwrite.js";
 import {useEffect, useState} from "react";
 
 const API_KEY = import.meta.env.VITE_API_KEY;
@@ -15,6 +14,7 @@ const MovieDetails = ({movie, setShowDetails}) => {
     const [video, setVideo] = useState('');
 
     const getMovieTrailer = async () => {
+        setErrorMsg('');
         try {
             const endpoint = 'https://api.themoviedb.org/3/movie/'+movie.id+'/videos';
             const response = await fetch(endpoint, API_OPTIONS);
@@ -48,7 +48,7 @@ const MovieDetails = ({movie, setShowDetails}) => {
     return (
         <>
             <div className="detailBg fixed top-0 left-0 w-full h-full bg-black opacity-40" onClick={() => {setShowDetails(false)}}></div>
-            <div className="z-10 fixed top-0 left-0 w-full h-full flex justify-center items-center">
+            <div className="z-10 fixed top-0 left-0 w-full h-full flex justify-center items-center" onClick={() => {setShowDetails(false)}}>
                 <div className="movie-details movie-card max-w-full sm:max-w-3/4 md:max-w-1/2 max-h-sm lg:max-h-lg top-20 flex justify-center items-center text-white">
                     <div className="movie-details-content flex flex-col lg:flex-row gap-3 items-center">
                         <div className="poster-container max-sm:max-w-[200px] w-1/2 lg:w-1/3">
@@ -61,19 +61,21 @@ const MovieDetails = ({movie, setShowDetails}) => {
                             </div>
                             <div className="mt-3">
                                 <p className="max-lg:line-clamp-6">{movie.overview}</p>
-                                <div className="movie-details-trailer w-full h-auto flex justify-center mt-5 lg:p-5">
-                                    {video && (
-                                        <iframe
-                                            width="100%"
-                                            height="100%"
-                                            src={video}
-                                            title="YouTube video player"
-                                            frameBorder="0"
-                                            allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                            allowFullScreen
-                                        ></iframe>
-                                    )}
-                                </div>
+                                {errorMsg ? (<p className="text-red-500">{errorMsg}</p>): (
+                                    <div className="movie-details-trailer w-full h-auto flex justify-center mt-5 lg:p-5">
+                                        {video && (
+                                            <iframe
+                                                width="100%"
+                                                height="100%"
+                                                src={video}
+                                                title="YouTube video player"
+                                                frameBorder="0"
+                                                allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                                allowFullScreen
+                                            ></iframe>
+                                        )}
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </div>

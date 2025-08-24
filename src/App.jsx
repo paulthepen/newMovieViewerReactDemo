@@ -2,7 +2,6 @@ import './App.css'
 import Search from "./components/Search.jsx";
 import {useState, useEffect, useRef} from "react";
 import Loading from "./components/Loading.jsx";
-import {updateSearchCount} from "./appwrite.js";
 import TrendingMovies from "./components/TrendingMovies.jsx";
 import MovieCards from "./components/MovieCards.jsx";
 import heroImg from './assets/hero-img.png'; //
@@ -50,10 +49,6 @@ const App = () => {
             }
 
             setMovies(movieInfo.results);
-
-            if (query && movieInfo.results.length > 0) {
-                await updateSearchCount(query, movieInfo.results[0]);
-            }
         } catch (error) {
             console.log(error);
             setErrorMsg('Something went wrong. Please try again later.');
