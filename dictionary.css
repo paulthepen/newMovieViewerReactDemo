@@ -1,0 +1,10 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+body > div {
+    border-radius: 8px;
+    margin: 0 10px;
+}
